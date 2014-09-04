@@ -34,3 +34,30 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+Graphs/TSS loadings/TSS 211.27 Csl.fig
+*.fig
+*.mexw32
+*.mexw64
+*.r2010b
+documents/ASMX_agreement.pdf
+documents/Description_ASMXinfluent.pdf
+Evaluation matrix Cli.mat
+Graphs.zip
+Graphs/0-8-16-24/errorbar SMX Ccj.pdf
+Graphs/0-8-16-24/errorbar SMX Cli.pdf
+Graphs/0-8-16-24/errorbar SMX Csl.pdf
+Graphs/10-18-2/errorbar SMX Ccj.pdf
+Graphs/10-18-2/errorbar SMX Cli.pdf
+Graphs/10-18-2/errorbar SMX Csl.pdf
+Graphs/errorbar flow rate.jpg
+Graphs/errorbar flow rate.pdf
+no noise week profile adjusted conc and load.docx
+plotoxygen.m
+plotsubareas.m
+plotTSS.m
+Results/ASM_Influents.xls
+Results/oxygenlevels.mat
+Results/sewerlength_all.mat
+Results/TSS_all.mat
+workspace.mat
