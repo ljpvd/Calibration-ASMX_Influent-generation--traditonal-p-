@@ -123,7 +123,7 @@ PARS_SOIL=[HMAX HINV A K Kinf Kdown];       % Parameter vector, an input to the 
 %6.1. Model parameters
 CODsol_gperPEperd=19.31;                    % Soluble COD load in g COD/d per PE
 CODpart_gperPEperd=119.57;                  % Particulate COD load in g COD/d per PE
-SNH_gperPEperd=5.23;                        % Ammonium load in g N/d per PE %%%% 
+SNH_gperPEperd=6.37;                        % Ammonium load in g N/d per PE %%%% 
 TKN_gperPEperd=14.24;                       % TKN load in g N/d per PE
 
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
