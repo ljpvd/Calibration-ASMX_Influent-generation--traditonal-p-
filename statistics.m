@@ -1,10 +1,12 @@
 %Statistic stuff after Figure_ASM1.. has run
 
 
-% Figure_ASM1_Influent_MLE
-% y=SNHdynamic;
-load y    %SNHgperdayperPE = 5.23
-load y2   %SNHgperdayperPE = 6.37
+Figure_ASM1_Influent_MLE
+y=SNHdynamic;
+% load y    %SNHgperdayperPE = 5.23
+% load y2   %SNHgperdayperPE = 6.37
+
+% y=y2;
 
 load NH4data_Oct_Puigcerda
 td=NH4data(:,1);

@@ -108,7 +108,7 @@ rainpopswitch=0;                          % Switch the rain contribution on (100
 XINITSOIL=2.2;                              % Initial h1 value. 
 
 % 5.2. Parameters S-function
-subareas = 2;                               % Subareas the catchment is divided
+subareas = 4;                               % Subareas the catchment is divided
 HINV=2;                                     % Invert level in tank, i.e. water level corresponding to bottom of sewer pipes
 HMAX=HINV+0.8;                              % Maximum water level in tank
 A=36000;                                    % Surface area
@@ -364,7 +364,7 @@ SSPARS=[M_Max Q_lim n Ff];
 
 %% 10. Sewer model
 
-subarea = 2;
+subarea = 4;
 
 % 8.1 Model parameters (ASM1)
 
