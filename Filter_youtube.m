@@ -1,12 +1,12 @@
 % This script is available at http://dadorran.wordpress.com search for
 % filtering matlab demo
-plot(TSS)
+plot(TSS_Oct_cor)
 title('Noisy signal')
 xlabel('Samples');
 ylabel('Amplitude')
  
 %plot magnitude spectrum of the signal
-X_mags = abs(fft(TSS));
+X_mags = abs(fft(TSS_Oct_cor));
 figure(10)
 plot(X_mags)
 xlabel('DFT Bins')
@@ -28,7 +28,7 @@ plot([0:1/(num_bins/2 -1):1], abs(H),'r');
 
 %filter the signal using the b and a coefficients obtained from
 %the butter filter design function
-x_filtered = filter(b,a,TSS);
+x_filtered = filter(b,a,TSS_Oct_cor);
  
 %plot the filtered signal
 figure(2)
@@ -48,9 +48,9 @@ hold on
 plot([0:1/(num_bins/2 -1):1], abs(H2),'g');
  
 %filter the noisy signal and plot the result
-x_filtered2 = filter(b2,a2,TSS);
+x_filtered2 = filter(b2,a2,TSS_Oct_cor);
 figure(3)
-plot(TSS)
+plot(TSS_Oct_cor)
 hold on
 plot(x_filtered,'r')
 % hold on
@@ -69,7 +69,7 @@ hold on
 plot([0:1/(num_bins/2 -1):1], abs(H_stopband),'c');
  
 %plot filtered signal
-x_filtered_stop = filter(b_stop,a_stop,TSS);
+x_filtered_stop = filter(b_stop,a_stop,TSS_Oct_cor);
 figure(4);
 plot(x_filtered_stop,'c')
 title('Filtered Signal - Using Stopband')
@@ -90,7 +90,7 @@ plot([0:1/(num_bins/2 -1):1], abs(H2),'k');
 figure(10)
  
 %filter the signal and plot the ouput of the filter
-x_filtered3 = filter(b3,a3,TSS);
+x_filtered3 = filter(b3,a3,TSS_Oct_cor);
 figure(5);
 plot(x_filtered3,'k')
 title(['Filtered Signal - Using ' num2str(N) ' th Order Butterworth'])

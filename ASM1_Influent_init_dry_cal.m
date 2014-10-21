@@ -31,6 +31,7 @@ load TKN_week_IndS
 load XXX_week_IndS %% Mpollutant, same profile as SNH
 
 load flow_data_Puigcerda_3Oct_30Oct_hourly2  %% Flow data from WWTP Puigerda, 
+load rainfall %% rainfall data 
 
 %% 1.Households model block (flow rate)
 % 1.1 Model parameters
@@ -350,7 +351,7 @@ polnoiseswitch = 1;                         % Switch noise term in the 'ASM' mod
 
 %% 9. first flush effect
 
-FFfraction = 0.25;                          % Fraction of the TSS that is able to settle in the sewers
+FFfraction = 0;                          % Fraction of the TSS that is able to settle in the sewers default 0.25
 
 % ASM1 X state values
 ASM1_XINIT=[0.25 0.1 0.1 0.1 0.0 0.0 0.02];% Initital conditions (7 states) XINIT= [TSS  XI  XS  XBH  XBA  XP  XND]
@@ -379,11 +380,11 @@ SPAR=[A C Hmin];
 
 %% 11 Parameters temperature model block
 TAmp = 5;                                   % Sine wave amplitude (deg. C)
-TBias = 15;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
+TBias = 18;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
 TFreq = 2*pi/364;                           % Sine wave frequency (rad/d)
-TPhase = pi*8.5/24;                         % Sine wave phase shift
+TPhase = pi;                         % Sine wave phase shift
 
-TdAmp = 0.5;                                % Sine wave amplitude (deg. C)
+TdAmp = 0.6;                                % Sine wave amplitude (deg. C)
 TdBias = 0;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
 TdFreq = 2*pi;                              % Sine wave frequency (rad/d)
 TdPhase = pi*0.8;                           % Sine wave phase shift

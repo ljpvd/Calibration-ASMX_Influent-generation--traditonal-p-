@@ -186,7 +186,7 @@ TSSinloadprctile5 = prctile(TSSinvec2,5);
 % disp(['Influent average XND conc = ',num2str(XNDinav),' mg N/l'])
 % disp(['Influent average SALK conc = ',num2str(SALKinav),' mol HCO3/m3'])
 % disp(['Influent average TSS conc = ',num2str(TSSinav),' mg SS/l '])
-% disp(['Influent average Temperature = ',num2str(Tempinav),' mg SS/l '])
+% disp(['Influent average Temperature = ',num2str(Tempinav),' C '])
 % disp(' ')
 % disp(['Influent average C_li conc = ',num2str(Cli_inav*1e6),' ng /l'])
 % disp(['Influent average C_cj conc = ',num2str(Ccj_inav*1e6),' ng /l'])
