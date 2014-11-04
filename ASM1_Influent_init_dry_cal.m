@@ -14,7 +14,7 @@ load year_IndS
 
 % Load influent pollution load, households (HH)
 load CODsol_day_HS
-load CODpart_day_HS_4
+load CODpart_day_HS
 load SNH_day_HS
 load TKN_day_HS
 
@@ -62,7 +62,7 @@ Q_Ind_nv=15000;                            % Noise variance (can be switched on 
 Q_Ind_st=1/24;                             % Noise sampling time
 
 % 2.3 switch functions
-Indpopswitch=100;                          % Switch the Industrial contribution on (100%) or off (0%)
+Indpopswitch=00;                          % Switch the Industrial contribution on (100%) or off (0%)
 Indnoiseswitch = 0;                        % Switch noise term in the 'Industry' model block on (1) or off (0)
 
 %% 3. Seasonal correction factor (flow rate)
@@ -123,7 +123,7 @@ PARS_SOIL=[HMAX HINV A K Kinf Kdown];       % Parameter vector, an input to the 
 %% 6.Households model block (pollutantans)
 %6.1. Model parameters
 CODsol_gperPEperd=19.31;                    % Soluble COD load in g COD/d per PE
-CODpart_gperPEperd=119.57;                  % Particulate COD load in g COD/d per PE
+CODpart_gperPEperd=80;                  % Particulate COD load in g COD/d per PE
 SNH_gperPEperd=6.37;                        % Ammonium load in g N/d per PE %%%% 
 TKN_gperPEperd=14.24;                       % TKN load in g N/d per PE
 
@@ -351,16 +351,16 @@ polnoiseswitch = 1;                         % Switch noise term in the 'ASM' mod
 
 %% 9. first flush effect
 
-FFfraction = 0;                          % Fraction of the TSS that is able to settle in the sewers default 0.25
+FFfraction = 0.40;                          % Fraction of the TSS that is able to settle in the sewers default 0.25
 
 % ASM1 X state values
 ASM1_XINIT=[0.25 0.1 0.1 0.1 0.0 0.0 0.02];% Initital conditions (7 states) XINIT= [TSS  XI  XS  XBH  XBA  XP  XND]
 
 % Parameters
-M_Max = 1000;                               % kg SS
-Q_lim = 70000;                              % m3/d
+M_Max = 700;                               % kg SS
+Q_lim = 10000;                              % m3/d
 n     = 15;                                 % Dimensionless
-Ff    = 500;                                % Dimensionless, gain
+Ff    = 700;                                % Dimensionless, gain
 SSPARS=[M_Max Q_lim n Ff];
 
 %% 10. Sewer model
