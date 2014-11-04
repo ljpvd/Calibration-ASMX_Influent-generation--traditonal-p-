@@ -123,7 +123,7 @@ PARS_SOIL=[HMAX HINV A K Kinf Kdown];       % Parameter vector, an input to the 
 %% 6.Households model block (pollutantans)
 %6.1. Model parameters
 CODsol_gperPEperd=19.31;                    % Soluble COD load in g COD/d per PE
-CODpart_gperPEperd=80;                  % Particulate COD load in g COD/d per PE
+CODpart_gperPEperd=90;                  % Particulate COD load in g COD/d per PE
 SNH_gperPEperd=6.37;                        % Ammonium load in g N/d per PE %%%% 
 TKN_gperPEperd=14.24;                       % TKN load in g N/d per PE
 
@@ -360,7 +360,7 @@ ASM1_XINIT=[0.25 0.1 0.1 0.1 0.0 0.0 0.02];% Initital conditions (7 states) XINI
 M_Max = 700;                               % kg SS
 Q_lim = 10000;                              % m3/d
 n     = 15;                                 % Dimensionless
-Ff    = 700;                                % Dimensionless, gain
+Ff    = 500;                                % Dimensionless, gain
 SSPARS=[M_Max Q_lim n Ff];
 
 %% 10. Sewer model
