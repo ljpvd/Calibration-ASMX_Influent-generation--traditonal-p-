@@ -52,7 +52,7 @@ title('Sample vs. Normal Quantiles')
 ylabel('Sample Quantiles')
 xlabel('Normal Quantiles')
 
-corrcoef(y,yd)
-%corr(y,yd)
+% corrcoef(y,yd)
+corr(y,yd)
 
 

@@ -30,7 +30,7 @@ load TKN_week_IndS
 
 load XXX_week_IndS %% Mpollutant, same profile as SNH
 
-load flow_data_Puigcerda_3Oct_30Oct_hourly2  %% Flow data from WWTP Puigerda, 
+load flow_data_Puigcerda_3Oct_30Oct_hourly2  %% Flow data from WWTP Puigerda, 2 times 27 days
 load rainfall %% rainfall data 
 
 %% 1.Households model block (flow rate)
@@ -47,7 +47,7 @@ Q_HH_st=1/24;                              % Noise sampling time
 
 % 1.3 switch functions
 HHpopswitch     = 100;                     % Switch the HH contribution on (100%) or off (0%)
-HHnoiseswitch = 0;                         % Switch the noise term in HH flow rate  on (1) or off (0)
+HHnoiseswitch = 1;                         % Switch the noise term in HH flow rate  on (1) or off (0)
 
 
 %% 2.Industry model block (flow rate)
@@ -123,7 +123,7 @@ PARS_SOIL=[HMAX HINV A K Kinf Kdown];       % Parameter vector, an input to the 
 %% 6.Households model block (pollutantans)
 %6.1. Model parameters
 CODsol_gperPEperd=19.31;                    % Soluble COD load in g COD/d per PE
-CODpart_gperPEperd=90;                  % Particulate COD load in g COD/d per PE
+CODpart_gperPEperd=80;                  % Particulate COD load in g COD/d per PE
 SNH_gperPEperd=6.37;                        % Ammonium load in g N/d per PE %%%% 
 TKN_gperPEperd=14.24;                       % TKN load in g N/d per PE
 
@@ -160,7 +160,7 @@ Csl_i_HH_max=20*Csl_i_gperPEperd*PE;        % g /d
 
 % 6.2. Noise parameters
 factor1 = 2.0;                              % Proportionality factor random noise generators
-factorM = 0.5;                              % Proportionality factor random noise generators
+factorM = 0.25;                              % Proportionality factor random noise generators
 
 CODsol_HH_ns=25000;                         % Noise seed, CODsol
 CODsol_HH_nv=factor1*2*CODsol_gperPEperd*PE;% Noise variance (can be switched on or off with HHpolnoiseswitch), CODsol

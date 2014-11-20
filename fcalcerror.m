@@ -1,23 +1,25 @@
-function [res,m,mae,mrse,obs,pred] = fcalcerror(t_exp,y_exp,t,y,tdelay)
+function [res,m,mae,mrse,obs,pred,n] = fcalcerror(t_exp,y_exp,t,y)
 
 [a b] = size(y_exp);       % 2D matrix, a = number of samples, b = number of compounds. 
 [c e] = size(y);           % 3D matrix, c = number of sim samples, d = number of compounds, e = number of simulations.
 
 % First bucle, select the simulated data based on the observed data time frequency.
-    j=1;
-    for j=1:a
-        index = max(find(t<=(t_exp(j,1)+tdelay)));
-        y_pred(j,:) = [y(index,:)];
-        t_pred(j,:) = [t(index)];
+    j=0;
+    k=1;
+    for j=0:1/24:a
+        index = (find (t==j));
+        y_pred(k,:) = [y(index,:)]
+        t_pred(k,:) = [t(index)];
+        k=k+1;
     end
 
 
 % Second bucle, calculate the different quality error indexes.
-n = a;
+n = index;
 time_obs = t_exp(:,1);
 time_pred = t_pred;
 obs = y_exp(:,1);
-pred = y_pred;
+pred = [t_pred, y_pred];
 
 for h=1:e
 % Residuals

@@ -7,20 +7,18 @@ p = 6; % number of variables
 X = lhsdesign(n,p,'smooth','off');
 
 %% model uncertainty (5%)
-p1 = [23750 26250];             %% Noise seed Cli
-p2 = [33750 36250];             %% Noise seed Ccj
-p3 = [0.01 2];                  %% Noise variance
-p4 = [1 8];                     %% Subareas
-p5 = [3.0 4.5];                 %% Cli
-p6 = [1.9 3.0];                 %% Ccj
+p1 = [43750 46250];             %% Noise seed SNH
+% p2 = [33750 36250];             %% Noise seed TSS
+p2 = [0.01 2];                  %% Noise variance
+p3 = [0.75*6.37 1.25*6.37];                 %% SNH
+% p5 = [0.75*80 1.25*80];                 %% TSS
 
 %%Creating matrix
 RandomMatrix1(:,1) = unifinv(X(:,1),p1(1),p1(2));
 RandomMatrix1(:,2) = unifinv(X(:,2),p2(1),p2(2));
 RandomMatrix1(:,3) = unifinv(X(:,3),p3(1),p3(2));
-RandomMatrix1(:,4) = unifinv(X(:,4),p4(1),p4(2));
-RandomMatrix1(:,5) = unifinv(X(:,5),p5(1),p5(2));
-RandomMatrix1(:,6) = unifinv(X(:,6),p6(1),p6(2));
+% RandomMatrix1(:,4) = unifinv(X(:,4),p4(1),p4(2));
+% RandomMatrix1(:,5) = unifinv(X(:,5),p5(1),p5(2));
 
 
 for a=1:1:1000; % this loop is correlated with the number of samples
@@ -57,7 +55,8 @@ load TKN_week_IndS
 
 load XXX_week_IndS %% Mpollutant, same profile as SNH
 
-load flow_data_Puigerda_Oct  %% Flow data from WWTP Puigerda, data interval 1 hour
+load flow_data_Puigcerda_3Oct_30Oct_hourly2  %% Flow data from WWTP Puigerda, data interval 1 hour
+load rainfall %% rainfall data 
 
 %% 1.Households model block (flow rate)
 % 1.1 Model parameters
@@ -88,7 +87,7 @@ Q_Ind_nv=15000;                            % Noise variance (can be switched on 
 Q_Ind_st=1/24;                             % Noise sampling time
 
 % 2.3 switch functions
-Indpopswitch=100;                          % Switch the Industrial contribution on (100%) or off (0%)
+Indpopswitch=00;                          % Switch the Industrial contribution on (100%) or off (0%)
 Indnoiseswitch = 1;                        % Switch noise term in the 'Industry' model block on (1) or off (0)
 
 
@@ -136,7 +135,7 @@ rainpopswitch=0;                          % Switch the rain contribution on (100
 XINITSOIL=2.2;                              % Initial h1 value. 
 
 % 5.2. Parameters S-function
-subareas = round(RandomMatrix1(a,4));                               % Subareas the catchment is divided
+subareas = 4;                               % Subareas the catchment is divided
 HINV=2;                                     % Invert level in tank, i.e. water level corresponding to bottom of sewer pipes
 HMAX=HINV+0.8;                              % Maximum water level in tank
 A=36000;                                    % Surface area
@@ -151,14 +150,14 @@ PARS_SOIL=[HMAX HINV A K Kinf Kdown];       % Parameter vector, an input to the 
 %% 6.Households model block (pollutantans)
 %6.1. Model parameters
 CODsol_gperPEperd=19.31;                    % Soluble COD load in g COD/d per PE
-CODpart_gperPEperd=115.08*1;                % Particulate COD load in g COD/d per PE
-SNH_gperPEperd=6.36;                        % Ammonium load in g N/d per PE %%%% 
+CODpart_gperPEperd=80;                % Particulate COD load in g COD/d per PE
+SNH_gperPEperd=RandomMatrix1(a,3);                        % Ammonium load in g N/d per PE %%%% 
 TKN_gperPEperd=14.24;                       % TKN load in g N/d per PE
 
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-Cli_gperPEperd=RandomMatrix1(a,5);                       % Cli load in g /d per PE (kg IBU day-1 PE-1)CLi load measured average daily influent (original values = 78 mg day-1 1000 PE)
-Ccj_gperPEperd=RandomMatrix1(a,6);                      % Ccj load in g /d per PE (kg IBU_OH2 day-1 PE-1)Ccj load measured average daily influent (original values = 78 mg day-1 1000 PE)
+Cli_gperPEperd=3.786;                       % Cli load in g /d per PE (kg IBU day-1 PE-1)CLi load measured average daily influent (original values = 78 mg day-1 1000 PE)
+Ccj_gperPEperd=2.43;                      % Ccj load in g /d per PE (kg IBU_OH2 day-1 PE-1)Ccj load measured average daily influent (original values = 78 mg day-1 1000 PE)
 Csl_gperPEperd=0;                           % Csl load in g /d per PE
 Csl_i_gperPEperd=0;                         % C_sl_i load in g /d per PE
 
@@ -187,8 +186,8 @@ Csl_i_HH_max=20*Csl_i_gperPEperd*PE;        % g /d
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 % 6.2. Noise parameters
-factor1 = 2.0;                              % Proportionality factor random noise generators
-factorM = RandomMatrix1(a,3);               % Proportionality factor random noise generators
+factor1 = RandomMatrix1(a,2);                              % Proportionality factor random noise generators
+factorM = 0.1;                   % Proportionality factor random noise generators
 
 CODsol_HH_ns=25000;                         % Noise seed, CODsol
 CODsol_HH_nv=factor1*2*CODsol_gperPEperd*PE;% Noise variance (can be switched on or off with HHpolnoiseswitch), CODsol
@@ -196,7 +195,7 @@ CODsol_HH_st=1/24;                          % Noise sampling time, CODsol
 CODpart_HH_ns=35000;                        % Noise seed, CODpart
 CODpart_HH_nv=factor1*CODpart_gperPEperd*PE;% Noise variance (can be switched on or off with HHpolnoiseswitch), CODpart
 CODpart_HH_st=1/24;                         % Noise sampling time, CODpart
-SNH_HH_ns=45000;                            % Noise seed, SNH
+SNH_HH_ns=RandomMatrix1(a,1);                            % Noise seed, SNH
 SNH_HH_nv=factor1*2*SNH_gperPEperd*PE;      % Noise variance (can be switched on or off with HHpolnoiseswitch), SNH
 SNH_HH_st=1/24;                             % Noise sampling time, SNH
 TKN_HH_ns=55000;                            % Noise seed, TKN
@@ -205,10 +204,10 @@ TKN_HH_st=1/24;                             % Noise sampling time, TKN
 
 %XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-Cli_HH_ns=RandomMatrix1(a,1);                % Noise seed, Cli
+Cli_HH_ns=27000;                % Noise seed, Cli
 Cli_HH_nv=factorM*Cli_gperPEperd*PE;        % Noise variance (can be switched on or off with HHpolnoiseswitch), Cli
 Cli_HH_st=1/24;                             % Noise sampling time, Cli
-Ccj_HH_ns=RandomMatrix1(a,2);                % Noise seed, Ccj
+Ccj_HH_ns=37000;                % Noise seed, Ccj
 Ccj_HH_nv=factorM*Ccj_gperPEperd*PE;        % Noise variance (can be switched on or off with HHpolnoiseswitch), Ccj
 Ccj_HH_st=1/24;                             % Noise sampling time, Ccj
 Csl_HH_ns=47000;                            % Noise seed, Csl
@@ -379,21 +378,21 @@ polnoiseswitch = 1;                         % Switch noise term in the 'ASM' mod
 
 %% 9. first flush effect
 
-FFfraction = 0.25;                          % Fraction of the TSS that is able to settle in the sewers
+FFfraction = 0.40;                          % Fraction of the TSS that is able to settle in the sewers
 
 % ASM1 X state values
 ASM1_XINIT=[0.25 0.1 0.1 0.1 0.0 0.0 0.02];% Initital conditions (7 states) XINIT= [TSS  XI  XS  XBH  XBA  XP  XND]
 
 % Parameters
-M_Max = 1000;                               % kg SS
-Q_lim = 70000;                              % m3/d
+M_Max = 700;                               % kg SS
+Q_lim = 10000;                              % m3/d
 n     = 15;                                 % Dimensionless
 Ff    = 500;                                % Dimensionless, gain
 SSPARS=[M_Max Q_lim n Ff];
 
 %% 10. Sewer model
 
-subarea = round(RandomMatrix1(a,4));
+subarea = 4;
 
 % 8.1 Model parameters (ASM1)
 
@@ -408,11 +407,11 @@ SPAR=[A C Hmin];
 
 %% 11 Parameters temperature model block
 TAmp = 5;                                   % Sine wave amplitude (deg. C)
-TBias = 15;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
+TBias = 18;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
 TFreq = 2*pi/364;                           % Sine wave frequency (rad/d)
 TPhase = pi*8.5/24;                         % Sine wave phase shift
 
-TdAmp = 0.5;                                % Sine wave amplitude (deg. C)
+TdAmp = 0.6;                                % Sine wave amplitude (deg. C)
 TdBias = 0;                                 % Sine wave bias (m3/d) (= average infiltration flow rate)
 TdFreq = 2*pi;                              % Sine wave frequency (rad/d)
 TdPhase = pi*0.8;                           % Sine wave phase shift
@@ -447,46 +446,30 @@ disp('**************************************************************************
 disp(' ')
 start=clock; 
 disp(['Start time for simulation (hour:min:sec) = ', num2str(round(start(4:6)))]); %Display simulation start time 
-outputtimes=(0:(1/96):24.3); %Define the simulation time for dynamic influent
+outputtimes=(0:(1/96):54); %Define the simulation time for dynamic influent
 options=simset('solver','ode45','outputpoints','specified'); %Define simulation options for dynamic influent 
-sim('ASM1_Influentmodel1_ff_calibration',outputtimes,options); %Simulate the BSM2 under dynamic influent 
+sim('ASM1_Influentmodel1_ff_calibration2',outputtimes,options); %Simulate the BSM2 under dynamic influent 
 
 Figure_ASM1_Influent
 
-EvaluationMatrix_Cli = zeros(1000,12);
+EvaluationMatrix_SNH = zeros(1000,12);
 
-EvaluationMatrix_Cli (a,1)= mean(ASM1_Influentpart(:,18));
-EvaluationMatrix_Cli (a,2)= std(ASM1_Influentpart(:,18));
-EvaluationMatrix_Cli (a,3)= (EvaluationMatrix_Cli (a,1)./EvaluationMatrix_Cli (a,2));
-EvaluationMatrix_Cli (a,4)= skewness(ASM1_Influentpart(:,18));
-EvaluationMatrix_Cli (a,5)= mode(ASM1_Influentpart(:,18));
-EvaluationMatrix_Cli (a,6)= kurtosis(ASM1_Influentpart(:,18));
-EvaluationMatrix_Cli (a,7)= prctile(ASM1_Influentpart(:,18),95);
-EvaluationMatrix_Cli (a,8)= prctile(ASM1_Influentpart(:,18),90);
-EvaluationMatrix_Cli (a,9)= prctile(ASM1_Influentpart(:,18),85);
+EvaluationMatrix_SNH (a,1)= mean(ASM1_Influentpart(:,11));
+EvaluationMatrix_SNH (a,2)= std(ASM1_Influentpart(:,11));
+EvaluationMatrix_SNH (a,3)= (EvaluationMatrix_SNH (a,1)./EvaluationMatrix_SNH (a,2));
+EvaluationMatrix_SNH (a,4)= skewness(ASM1_Influentpart(:,11));
+EvaluationMatrix_SNH (a,5)= mode(ASM1_Influentpart(:,11));
+EvaluationMatrix_SNH (a,6)= kurtosis(ASM1_Influentpart(:,11));
+EvaluationMatrix_SNH (a,7)= prctile(ASM1_Influentpart(:,11),95);
+EvaluationMatrix_SNH (a,8)= prctile(ASM1_Influentpart(:,11),90);
+EvaluationMatrix_SNH (a,9)= prctile(ASM1_Influentpart(:,11),85);
 
-EvaluationMatrix_Cli (a,10)= prctile(ASM1_Influentpart(:,18),5);
-EvaluationMatrix_Cli (a,11)= prctile(ASM1_Influentpart(:,18),10);
-EvaluationMatrix_Cli (a,12)= prctile(ASM1_Influentpart(:,18),15);
+EvaluationMatrix_SNH (a,10)= prctile(ASM1_Influentpart(:,11),5);
+EvaluationMatrix_SNH (a,11)= prctile(ASM1_Influentpart(:,11),10);
+EvaluationMatrix_SNH (a,12)= prctile(ASM1_Influentpart(:,11),15);
 
-EvaluationMatrix_Ccj = zeros(1000,12);
+y1(:,a)=ASM1_Influentpart(:,11);
 
-EvaluationMatrix_Ccj (a,1)= mean(ASM1_Influentpart(:,19));
-EvaluationMatrix_Ccj (a,2)= std(ASM1_Influentpart(:,19));
-EvaluationMatrix_Ccj (a,3)= (EvaluationMatrix_Ccj (a,1)./EvaluationMatrix_Ccj (a,2));
-EvaluationMatrix_Ccj (a,4)= skewness(ASM1_Influentpart(:,19));
-EvaluationMatrix_Ccj (a,5)= mode(ASM1_Influentpart(:,19));
-EvaluationMatrix_Ccj (a,6)= kurtosis(ASM1_Influentpart(:,19));
-EvaluationMatrix_Ccj (a,7)= prctile(ASM1_Influentpart(:,19),95);
-EvaluationMatrix_Ccj (a,8)= prctile(ASM1_Influentpart(:,19),90);
-EvaluationMatrix_Ccj (a,9)= prctile(ASM1_Influentpart(:,19),85);
-
-EvaluationMatrix_Ccj (a,10)= prctile(ASM1_Influentpart(:,19),5);
-EvaluationMatrix_Ccj (a,11)= prctile(ASM1_Influentpart(:,19),10);
-EvaluationMatrix_Ccj (a,12)= prctile(ASM1_Influentpart(:,19),15);
-
-y1(:,a)=ASM1_Influentpart(:,18);
-y2(:,a)=ASM1_Influentpart(:,19);
 
 
 % ANALYSIS OF WASTEWATER FLOW-RATE DATA % 
